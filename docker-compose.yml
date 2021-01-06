@@ -1,0 +1,20 @@
+version: "2"
+volumes:
+  starline_cfg:
+services:
+  starline:
+    build: .
+    image: sds:alpine-0.1
+    container_name: sds
+    volumes:
+      - starline_cfg:/app/config
+#    set login data
+    environment:
+#      - STARLINE_APP_ID=
+#      - STARLINE_SECRET=
+#      - STARLINE_LOGIN=
+#      - STARLINE_PASSWORD=
+      - STARLINE_UPDATE=3
+      - STARLINE_METRIC_PORT=8180
+    ports:
+      - "8180:8180"

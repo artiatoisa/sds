@@ -1,0 +1,16 @@
+#app_id:
+#secret:
+#login:
+#password:
+datastore: JsonStore
+update_data: 10
+metric_port: 8080
+logging:
+  handlers:
+    console:
+      level: INFO
+    file:
+      level: INFO
+      filename: sds.log
+      maxBytes: 1048576
+      backupCount: 10
