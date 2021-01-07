@@ -37,10 +37,13 @@ Starline Statistics - свободнораспростроняемый скри�
 
 1. Склонируйте проект
 
-`git clone https://github.com/artiatoisa/starline.git`
+   `git clone https://github.com/artiatoisa/starline.git`
+
+3. Отредактируйте файл `docker-compose.yaml` либо `config/config.yaml` добавив аутентификационные данные либо 
+
 2. Из корня проекта выполните
 
-`docker-compose  up -d --build`
+   `docker-compose  up -d --build`
 
 После выполнения команды будет собран образ и запущен контйнер.
 Для проверки публикации метрик перейдите по ссылке http://docker-host:8180/metrics
@@ -77,14 +80,14 @@ Starline Statistics - свободнораспростроняемый скри�
 #password:
 datastore: JsonStore
 update_data: 10
-metric_port: 8080
+metric_port: 8180
 logging:
   handlers:
     console:
       level: INFO
     file:
       level: INFO
-      filename: starline.log
+      filename: sds.log
       maxBytes: 1048576
       backupCount: 10
 ```
