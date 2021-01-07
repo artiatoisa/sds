@@ -73,7 +73,7 @@ class StarLine:
         :return: Код, необходимый для получения токена приложения
         """
 
-        url = 'https://id.sds.ru/apiV3/application/getCode/'
+        url = 'https://id.starline.ru/apiV3/application/getCode/'
 
         payload = {
             'appId': app_id,
@@ -91,13 +91,13 @@ class StarLine:
         """
         Получение токена приложения для дальнейшей авторизации.
         Время жизни токена приложения - 4 часа.
-        Идентификатор приложения и пароль можно получить на my.sds.ru.
+        Идентификатор приложения и пароль можно получить на my.starline.ru.
         :param app_id: Идентификатор приложения
         :param app_secret: Пароль приложения
         :param app_code: Код приложения
         :return: Токен приложения
         """
-        url = 'https://id.sds.ru/apiV3/application/getToken/'
+        url = 'https://id.starline.ru/apiV3/application/getToken/'
         payload = {
             'appId': app_id,
             'secret': hashlib.md5((app_secret + app_code).encode('utf-8')).hexdigest()
@@ -125,7 +125,7 @@ class StarLine:
             :param user_password: Пароль пользователя
             :return: Токен, необходимый для работы с данными пользователя. Данный токен потребуется для авторизации на StarLine API сервере.
             """
-        url = 'https://id.sds.ru/apiV3/user/login/'
+        url = 'https://id.starline.ru/apiV3/user/login/'
         payload = {
             'token': app_token
         }
@@ -146,7 +146,7 @@ class StarLine:
             :param slid_token: Токен StarLineID
             :return: Токен пользователя на StarLineAPI
             """
-        url = 'https://developer.sds.ru/json/v2/auth.slid'
+        url = 'https://developer.starline.ru/json/v2/auth.slid'
         data = {
             'slid_token': slid_token
         }
@@ -169,7 +169,7 @@ class StarLine:
             :param slnet_token: StarLineAPI Token
             :return: Код, необходимый для получения токена приложения
             """
-        url = "https://developer.sds.ru/json/v3/user/{}/data".format(user_id)
+        url = "https://developer.starline.ru/json/v3/user/{}/data".format(user_id)
         cookies = "slnet={}".format(slnet_token)
 
         log.debug('Try to get user data...')
@@ -188,7 +188,7 @@ class StarLine:
         :param device: идентификатор устройства в SLNet
         :return: list events
         """
-        url = 'https://developer.sds.ru/json/v1/device/{}/events'
+        url = 'https://developer.starline.ru/json/v1/device/{}/events'
         cookies = "slnet={}".format(slnet_token)
         data = {
             "from": self._event_time,
@@ -211,7 +211,7 @@ class StarLine:
         :param device: идентификатор устройства в SLNet
         :return: list events
         """
-        url = 'https://developer.sds.ru/json/v1/device/{}/obd_errors'
+        url = 'https://developer.starline.ru/json/v1/device/{}/obd_errors'
         cookies = "slnet={}".format(slnet_token)
 
         log.debug('Try to get device ({}) obd errors...'.format(device))
@@ -220,7 +220,7 @@ class StarLine:
         self._event_time = datetime.now().utcnow().timestamp()
         log.debug('Got device ({}) obd errors ({} errors).'.format(device, len(errors)))
 
-        return events
+        return errors
 
     def _auth(self):
 

@@ -93,7 +93,7 @@ class StarLineTests(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_app_code(self, mocker):
-        url = 'https://id.sds.ru/apiV3/application/getCode/'
+        url = 'https://id.starline.ru/apiV3/application/getCode/'
         src = {
             'state': 1,
             'desc': {
@@ -105,7 +105,7 @@ class StarLineTests(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_app_token(self, mocker):
-        url = 'https://id.sds.ru/apiV3/application/getToken/'
+        url = 'https://id.starline.ru/apiV3/application/getToken/'
         src = {
             'state': 1,
             'desc': {
@@ -119,7 +119,7 @@ class StarLineTests(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_slid_user_token(self, mocker):
-        url = 'https://id.sds.ru/apiV3/user/login/'
+        url = 'https://id.starline.ru/apiV3/user/login/'
         src = {
             'state': 1,
             'desc': {
@@ -131,7 +131,7 @@ class StarLineTests(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_slnet_token(self, mocker):
-        url = 'https://developer.sds.ru/json/v2/auth.slid'
+        url = 'https://developer.starline.ru/json/v2/auth.slid'
         src = {
             'code': '200',
             'codestring': 'OK',
@@ -145,7 +145,7 @@ class StarLineTests(unittest.TestCase):
 
     @requests_mock.Mocker()
     def test_get_user_data(self, mocker):
-        url = "https://developer.sds.ru/json/v3/user/12345/data"
+        url = "https://developer.starline.ru/json/v3/user/12345/data"
         mocker.register_uri('GET', url, json=self.src)
         data = self.starline._get_user_data('12345', '3ca3ae6d958508450b54fc6f29a48877')
         self.assertEqual(self.src, data)
@@ -207,7 +207,7 @@ class StarLineTests(unittest.TestCase):
             'code': 200,
             'codestring': 'OK'
         }
-        url = "https://developer.sds.ru/json/v1/device/356306056285332/events"
+        url = "https://developer.starline.ru/json/v1/device/356306056285332/events"
         mocker.register_uri('POST', url, json=src, cookies={'slnet': '3ca3ae6d958508450b54fc6f29a48877'})
         events = self.starline._get_events('3ca3ae6d958508450b54fc6f29a48877', '356306056285332')
         self.assertIsInstance(events, list)
