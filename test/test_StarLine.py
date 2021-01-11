@@ -9,6 +9,7 @@ os.environ['STARLINE_CONFIG_FILE'] = '../config/config.yaml'
 
 from src.StarLine import StarLine
 from src.StoreDriver import StoreDriver
+from src.Exception import *
 
 
 
@@ -213,3 +214,18 @@ class StarLineTests(unittest.TestCase):
         self.assertIsInstance(events, list)
         self.assertEqual(src['events'], events)
 
+    @requests_mock.Mocker()
+    def test_http_exceptions(self, mocker):
+        with self.subTest(case='SdsHttpException'):
+            mocker.register_uri('GET', 'http://get.test.com')
+            self.assertRaises(SdsHttpException, self.starline._get_http, 'http://get.test1.com', method='get')
+
+        with self.subTest(case='SdsHttpResultCodeException'):
+            src = {
+                "state": 2,
+                "desc": {
+                    "code": "3ca3ae6d958508450b54fc6f29a48877",
+                    'message': 'Some message'
+                }}
+            mocker.register_uri('GET', 'http://get.test.com', json=src)
+            self.assertRaises(SdsHttpResultCodeException, self.starline._get_http, 'http://get.test.com', method='get')

@@ -7,6 +7,9 @@ system_metrics = {
     'http_requests_period': Gauge('http_requests_period', 'Интервал опроса'),
 }
 
+
+# event_metric = Counter('event_id', 'group_id', 'date', 'msg')
+
 starline_metrics = {
     'activity_ts': Gauge('starline_activity_ts',
                          'Время последней активности устройства, число секунд прошедших с 01.01.1970 по UTC',
