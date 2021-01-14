@@ -3,8 +3,10 @@
 #login:
 #password:
 datastore: JsonStore
-update_data: 10
+update_data: 3
 metric_port: 8180
+fuel:
+  Qashqai: 60
 logging:
   handlers:
     console:

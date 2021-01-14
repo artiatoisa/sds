@@ -30,6 +30,7 @@ class StarLine:
         self._slnet_token_exp = timedelta(hours=24)
         self._event_time = datetime.utcnow().timestamp()
         self._last_event_timestamp = datetime.now().timestamp()
+        self._fuel = kwargs.get('fuel', {})
         metrics.system_metrics['http_requests_period'].set(self._update_data)
         log.info('StarLine was initialising with params: {}'.format(vars(self)))
 
@@ -298,7 +299,7 @@ class StarLine:
             log.info('Codes and tokens were updated.')
 
     @property
-    def user_data(self):
+    def user_data(self) -> dict:
         if self._chk_time(self._datastore.db_get_value('slnet_token')['date_exp']):
             self._auth()
 
@@ -309,6 +310,7 @@ class StarLine:
             )
         except SdsUserDataException as e:
             log.error(e.args[0])
+            return {'user_data': {'devices': []}}
         else:
             return ud
 
@@ -317,7 +319,10 @@ class StarLine:
         flatten_devices = []
         for d in user_data['user_data']['devices']:
             flatten_devices.append(flatten(d, separator='.'))
-        log.debug('JSON was converted to flatten format.')
+        if len(flatten_devices) > 0:
+            log.debug('JSON was converted to flatten format.')
+        else:
+            log.error('JSON wasn\'t converted to flatten format. Maybe nothing to converted')
         return flatten_devices
 
     # def _events(self, dev_id):
@@ -332,6 +337,20 @@ class StarLine:
     #             events_map.events[event['event_id']]
     #         ).inc()
 
+    def _fuel_litres(self):
+        for s in metrics.starline_metrics['obd.fuel_percent'].collect()[0].samples:
+            if s.name.endswith('_created') is False:
+                labels = s.labels
+                value = s.value
+                fl = (value * self._fuel.get(labels['alias'], 0)) // 100
+                metrics.starline_user_metrics['fuel_litres'].labels(**labels).set(fl)
+
+    def fuel_in_100km(self):
+        pass
+
+    def fuel_price_1km(self):
+        pass
+
     def monitoring_run(self):
         metrics.start_server(self._metric_port)
         first_run = True
@@ -341,9 +360,10 @@ class StarLine:
                 for key_metric, metric in metrics.starline_metrics.items():
                     log.debug('Update metric {} on device {}({})'.format(key_metric, dev['alias'], dev['device_id']))
                     metric.labels(dev['device_id'], dev['alias']).set(dev[key_metric])
-                if dev['event.timestamp'] != self._last_event_timestamp:
-                    self._events(dev['device_id'])
-                    self._last_event_timestamp = dev['event.timestamp']
+                self._fuel_litres()
+                # if dev['event.timestamp'] != self._last_event_timestamp:
+                #     self._events(dev['device_id'])
+                #     self._last_event_timestamp = dev['event.timestamp']
             if first_run:
                 log.info('Application was started.')
                 first_run = False

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.0</version>
-    <date>2021-01-06T15:54:13Z</date>
+    <date>2021-01-14T16:18:59Z</date>
     <groups>
         <group>
             <name>Templates/Applications</name>
@@ -612,6 +612,30 @@
                             </master_item>
                         </item_prototype>
                         <item_prototype>
+                            <name>starline_obd_fuel_percent {#ALIAS}</name>
+                            <type>DEPENDENT</type>
+                            <key>starline_obd_fuel_percent[{#ALIAS},{#DEVICE_ID}]</key>
+                            <delay>0</delay>
+                            <history>365d</history>
+                            <trends>0</trends>
+                            <value_type>FLOAT</value_type>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>{#ALIAS}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>PROMETHEUS_PATTERN</type>
+                                    <params>starline_obd_fuel_percent{alias=&quot;{#ALIAS}&quot;,device_id=&quot;{#DEVICE_ID}&quot;}
+</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>starline_main</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
                             <name>starline_obd_mileage {#ALIAS}</name>
                             <type>DEPENDENT</type>
                             <key>starline_obd_mileage[{#ALIAS},{#DEVICE_ID}]</key>
@@ -629,6 +653,34 @@
                                     <type>PROMETHEUS_PATTERN</type>
                                     <params>starline_obd_mileage{alias=&quot;{#ALIAS}&quot;,device_id=&quot;{#DEVICE_ID}&quot;}
 </params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>starline_main</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>starline_obd_mileage_delta {#ALIAS}</name>
+                            <type>DEPENDENT</type>
+                            <key>starline_obd_mileage_delta[{#ALIAS},{#DEVICE_ID}]</key>
+                            <delay>0</delay>
+                            <history>365d</history>
+                            <trends>0</trends>
+                            <value_type>FLOAT</value_type>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>{#ALIAS}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>PROMETHEUS_PATTERN</type>
+                                    <params>starline_obd_mileage{alias=&quot;{#ALIAS}&quot;,device_id=&quot;{#DEVICE_ID}&quot;}
+</params>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                    <params/>
                                 </step>
                             </preprocessing>
                             <master_item>
@@ -1355,6 +1407,30 @@
                                 <key>starline_main</key>
                             </master_item>
                         </item_prototype>
+                        <item_prototype>
+                            <name>starline_user_fuel_litres {#ALIAS}</name>
+                            <type>DEPENDENT</type>
+                            <key>starline_user_fuel_litres[{#ALIAS},{#DEVICE_ID}]</key>
+                            <delay>0</delay>
+                            <history>365d</history>
+                            <trends>0</trends>
+                            <value_type>FLOAT</value_type>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>{#ALIAS}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>PROMETHEUS_PATTERN</type>
+                                    <params>starline_user_fuel_litres{alias=&quot;{#ALIAS}&quot;,device_id=&quot;{#DEVICE_ID}&quot;}
+</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>starline_main</key>
+                            </master_item>
+                        </item_prototype>
                     </item_prototypes>
                     <master_item>
                         <key>starline_main</key>
@@ -1383,9 +1459,9 @@
                     <delay>0</delay>
                     <item_prototypes>
                         <item_prototype>
-                            <name>http_requests_total {#CODE} {#MESSAGE} {#URL}</name>
+                            <name>http_requests {#CODE} {#MESSAGE} {#URL}</name>
                             <type>DEPENDENT</type>
-                            <key>http_requests_total[{#CODE},{#MESSAGE},{#URL}]</key>
+                            <key>http_requests[{#CODE},{#MESSAGE},{#URL}]</key>
                             <delay>0</delay>
                             <history>365d</history>
                             <trends>0</trends>
@@ -1400,6 +1476,10 @@
                                     <type>PROMETHEUS_PATTERN</type>
                                     <params>http_requests_total{code=&quot;{#CODE}&quot;,message=&quot;{#MESSAGE}&quot;,url=&quot;{#URL}&quot;}
 </params>
+                                </step>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                    <params/>
                                 </step>
                             </preprocessing>
                             <master_item>

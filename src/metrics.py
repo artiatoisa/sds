@@ -10,12 +10,22 @@ system_metrics = {
 
 # event_metric = Counter('event_id', 'group_id', 'date', 'msg')
 
+starline_user_metrics = {
+    'fuel_litres': Gauge('starline_user_fuel_litres', 'Уровень топлива, литры. Расчитано относительно процентов.',
+                         ['device_id', 'alias']),
+    'fuel_in_100km': Gauge('starline_user_fuel_in_100km', 'Средний расход топлива на 100км за день',
+                           ['device_id', 'alias']),
+    'fuel_price_1km': Gauge('starline_user_fuel_price_1km', 'Средняя стоимость 1 км пути за день',
+                            ['device_id', 'alias']),
+}
+
 starline_metrics = {
     'activity_ts': Gauge('starline_activity_ts',
                          'Время последней активности устройства, число секунд прошедших с 01.01.1970 по UTC',
                          ['device_id', 'alias']),
     'obd.mileage': Gauge('starline_obd_mileage', 'Пробег всего', ['device_id', 'alias']),
     'obd.ts': Gauge('starline_obd_ts', 'Метка времени обновления данных', ['device_id', 'alias']),
+    'obd.fuel_percent': Gauge('starline_obd_fuel_percent', 'Уровень топлива, проценты', ['device_id', 'alias']),
     'common.etemp': Gauge('starline_common_etemp', 'Температура двигателя', ['device_id', 'alias']),
     'common.ctemp': Gauge('starline_common_ctemp', 'Температура салона', ['device_id', 'alias']),
     'common.gps_lvl': Gauge('starline_common_gps_lvl', 'Уровень приёма GPS сигнала, соответвует числу спутников GPS',
